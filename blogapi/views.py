@@ -23,6 +23,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import MyTokenObtainPairSerializer,RegisterSerializer
 
 
+
 # This is a custom view class that extends TokenObtainPairView and allows any user to obtain a token
 # pair using MyTokenObtainPairSerializer.
 
@@ -113,10 +114,10 @@ class blogCreate(generics.CreateAPIView):
 # This is a Django REST framework class for updating a blog topic with a specified ID using a
 # serializer.
 class blogUpdate(generics.UpdateAPIView):
+    permission_classes = [IsOwnerOrReadOnly]
     queryset=Topic.objects.all()
     serializer_class= TopicSerializer
     lookup_field= 'id'
-    
     def perform_update(self,serializer):
         instance= serializer.save()
         
