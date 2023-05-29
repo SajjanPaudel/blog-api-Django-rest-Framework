@@ -21,6 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import MyTokenObtainPairSerializer,RegisterSerializer
+from rest_framework.pagination import LimitOffsetPagination
 
 
 
@@ -96,6 +97,7 @@ class DetailAPIView(generics.RetrieveAPIView):
 class ListAPIView(generics.ListAPIView):
     queryset = Topic.objects.all()
     serializer_class= TopicSerializer
+    pagination_class= LimitOffsetPagination
 
 # This is a Django REST framework view that creates a new blog topic and associates it with the
 # authenticated user.
