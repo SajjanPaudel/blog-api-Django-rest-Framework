@@ -13,7 +13,9 @@ class TopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Topic
-        fields= ['id','blog_title','blog_summary','blog_content','blog_header_image','user_id']
+        fields= ['id','blog_title','blog_summary','blog_content','blog_header_image','user_id','user']
+        # depth = 1
+        
      
  
 # This is a serializer class for the User model with fields for id, first name, last name, and
@@ -28,15 +30,24 @@ class UserSerializer(serializers.ModelSerializer):
 # The class `MyTokenObtainPairSerializer` extends `TokenObtainPairSerializer` and adds a custom claim
 # for the user's username to the token.
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data["refresh"] = str(refresh)
+        data["access"] = str(refresh.access_token)
+        data["user_email"] =self.user.email
 
-    @classmethod
+        return data
+
     def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
+        token = super().get_token(user)
         # Add custom claims
-        token['username'] = user.username
+        token['email'] = user.email
         return token
     
+
+
     
 
 # This is a serializer class for registering a user with fields such as email, password, first name,

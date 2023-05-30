@@ -24,15 +24,13 @@ from .serializers import MyTokenObtainPairSerializer,RegisterSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.filters import SearchFilter
 
-
-
 # This is a custom view class that extends TokenObtainPairView and allows any user to obtain a token
 # pair using MyTokenObtainPairSerializer.
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
-    
+
 # This is a Django REST framework view for registering new users with the specified serializer and
 # permission classes.
 class RegisterView(generics.CreateAPIView):
@@ -40,25 +38,25 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-def is_author(view_func):
-    """
-    This is a Python function that checks if the user requesting a function is the author of a blog post
-    and returns an access forbidden error if not.
+# def is_author(view_func):
+#     """
+#     This is a Python function that checks if the user requesting a function is the author of a blog post
+#     and returns an access forbidden error if not.
     
-    :param view_func: a function that takes a request object and returns an HTTP response
-    :return: The function `wrapper` is being returned as a decorator.
-    """
-    @wraps(view_func)
-    def wrapper(request, *args, **kwargs):
-        blog_id = kwargs.get('id')
-        blog = get_object_or_404(Topic, id=blog_id)
-        #check if the author and the user who is requesting a function is same or not
-        if request.user != blog.user:
-        #if not then give an access forbidden error 
-            return HttpResponseForbidden()
-        return view_func(request, *args, **kwargs)
+#     :param view_func: a function that takes a request object and returns an HTTP response
+#     :return: The function `wrapper` is being returned as a decorator.
+#     """
+#     @wraps(view_func)
+#     def wrapper(request, *args, **kwargs):
+#         blog_id = kwargs.get('id')
+#         blog = get_object_or_404(Topic, id=blog_id)
+#         #check if the author and the user who is requesting a function is same or not
+#         if request.user != blog.user:
+#         #if not then give an access forbidden error 
+#             return HttpResponseForbidden()
+#         return view_func(request, *args, **kwargs)
 
-    return wrapper
+#     return wrapper
 
 
 
@@ -77,9 +75,9 @@ def api_home(request):
         'Create':'api/v1/create',
         'Update':'api/v1/update/<int:id>',
         'Delete':'api/v1/delete/<int:id>',
-        'Get Token':'api/v1/gettoken',
-        'Get Token':'api/v1/refreshtoken',
-        'login':'/api-auth/login/'
+        'Register':'api/v1/register/',
+        'Get Token':'/api/v1/login/',
+        'Refresh Token':'api/v1/login/refresh',
     }
     
     return Response(api_urls)
