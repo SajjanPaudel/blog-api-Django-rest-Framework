@@ -113,6 +113,7 @@ class blogCreate(generics.CreateAPIView):
     def get_queryset(self):
         queryset= Topic.objects.all()
         return queryset
+    
 
 # This is a Django REST framework class for updating a blog topic with a specified ID using a
 # serializer.
