@@ -4,7 +4,7 @@ from autoslug import AutoSlugField
 
 class Topic(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
-    blog_header_image = models.ImageField(blank=True, upload_to="image/", default='image/default.jpg' )
+    blog_header_image = models.ImageField(blank=True, upload_to="image/", default='https://www.hindustantimes.com/ht-img/img/2023/06/25/550x309/WhatsApp_Image_2021-09-18_at_094218_1687737467635_1687737467830.jpeg' )
     blog_title = models.CharField(max_length=500)
     blog_summary = models.CharField(max_length=1000,null=True)
     blog_content = models.TextField(null=True,blank=True)
