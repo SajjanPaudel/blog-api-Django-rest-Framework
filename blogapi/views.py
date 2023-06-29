@@ -23,6 +23,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import MyTokenObtainPairSerializer,RegisterSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
+
+class CustomPagination(PageNumberPagination):
+    # Returns 10 elements per page, and the page query param is named "page_no"
+    page_size = 10
+    page_query_param = 'page_no'
 
 # This is a custom view class that extends TokenObtainPairView and allows any user to obtain a token
 # pair using MyTokenObtainPairSerializer.
@@ -96,7 +102,7 @@ class DetailAPIView(generics.RetrieveAPIView):
 class ListAPIView(generics.ListAPIView):
     queryset = Topic.objects.all()
     serializer_class= TopicSerializer
-    pagination_class= LimitOffsetPagination
+    pagination_class= CustomPagination
     filter_backends=[SearchFilter]
     search_fields=['blog_title','blog_summary']
 
